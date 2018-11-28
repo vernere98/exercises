@@ -5,30 +5,30 @@ function func1()
 {
 	read -p "Are you sure you want to empty trash? [y/n]"  input
 
-	case $input in 
-		[Yy]) 
-			rm -r .mytrash/*
-    		echo "Trash is now empty"
-    		;;
-    	[Nn]) exit;;
-	esac
+case $input in 
+	[Yy]) 
+		rm -r .mytrash/*
+   		echo "Emptying trash."
+   		echo "Trash is empty."
+   		;;
+   	[Nn]) 	exit;;
+esac
 }
 	
 case $1 in 
--e)
-	func1
-	# empty the trash
-    ;;  
- *)
-	for var in $@; 
-	do
-			[ ! -d ~/.mytrash/ ] && mkdir ~/.mytrash/
-	        mv "$var" ~/.mytrash/
-    echo "Trashing files"
+	-e)
+		func1
+		# empty the trash
+	    ;;  
+ 	*)
+		for var in $@; 
+		do
+			mkdir -p ~/.mytrash/
+		        mv "$var" ~/.mytrash/
+	echo "Moving to trash."
 done
-    # move the files
-    ;;
+	;;
 	
- esac
+esac
 
- exit 0
+exit 0
