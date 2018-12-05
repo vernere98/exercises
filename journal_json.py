@@ -1,94 +1,53 @@
 import json
 
-
-# class Journal:
-
-
-
-
-# 	def __init__(self):
-# 	    self.journal_id = 1
-# 	    self.entries = []
-
-# 	def read_input(self):
-# 	    lines = []
-# 	    with open('birthdays.json') as jason_data:
-# 	        lines = jason_data.readlines()
-
-# 	    for line in lines:
-# 	    	date, text = line.split(',')
-# 	    #     self.add_entry(date, text)
-
-# 	    return lines
-
-# 	# def view_entries(self):
-# 	# 		print('Date\t   | Text')
-# 	# 		print('---' * 8)
-# 	#         	for entry in self.entries:
-# 	#             	date, text = entry.values()
-# 	#             	print(date, '|', end=' ')
-# 	#            		print(text)
-
-
-# 	def __str__(self):
-# 	    return 'Journal ' + str(self.journal_id)
-
-
-
-# journal = Journal()
-# journal.read_input()
-# # print (journal)
-# journal.view_entries()
-
-
 class Journal:
+	# xRead from an input file
+    # Add entry to journal
+    # View entries
+    # Search entries
+    # Edit entries
+    # Delete entries
+    # Export entries
+    
 
 	def __init__(self):
-		self.journal_id = 0
+		self.journal_id = 1
 		self.entries = []
-        
 
 	def read_input(self):
 		data = []
 		with open('birthdays.json') as json_data:
 			data = json.load(json_data)
 
-			for r in data:
-				date, name = r.split(',')
-				self.add_entry(date, name)
+			for r in data['birthdays']:
+				print(r['date'], '|', r['name'])
 
-			return data
-	
-	def add_entry(self, date, name):
-		self.entries.append({
-            'date': date,
-            'name': name
-        })
+	# def add_entry(self, date, name)
+
+
+	def view_entries(self):
+		print('---' * 11)
+		print('Date\t   | Name\t        |')
+		print('---' * 11)
+		self.read_input()
+
 
 	def export_entries(self, file_name):
-	    with open(file_name, 'w') as f:
-	        f.writelines([
-	            '{date} {name}'.format_map(entry)
-	            for entry in self.entries
-            ])
+	        with open(file_name, 'w') as f:
+	            f.writelines([
+	                '{date}|{text}'.format_map(entry)
+	                for entry in self.entries
+	            ])
 
-def __str__(self):
-	return 'Journal ' + str(self.journal_id)
 
-	# def write(path,filename,data):
-	# 	file_path = './' + path + '/' +filename + '.json'
-	# 	with open(file_path, 'w') as f:
-	# 		json.dump(data,f)
+	
+	def __str__(self):
+	    return 'Journal' + str(self.journal_id)
 
-	# path = './'
-	# filename = 'birthday1'
 
-	# data ={}
-	# data['test'] = 'test2'
-	# data['hello'] = 'sds'
-
-	# write(path,filename,data)
 
 journal = Journal()
 journal.read_input()
-journal.export_entries(file_name='journal_backup.json')
+print(journal)
+journal.view_entries()
+journal.export_entries(file_name='journal_backup.txt')
