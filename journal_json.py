@@ -32,12 +32,15 @@ class Journal:
 		self.read_input()
 
 
-	def export_entries(self, file_name):
-	        with open(file_name, 'w') as f:
-	            f.writelines([
-	                '{date}|{text}'.format_map(entry)
-	                for entry in self.entries
-	            ])
+	def export_entries_delete_entries(self):
+		with open('birthdays.json') as json_data:
+			data = json.load(json_data)
+			for entry in data['birthdays']:
+				if 'date' in entry:
+					del entry['date']
+
+		with open('birthdays.txt', 'w') as json_data:
+			data = json.dump(data, json_data)
 
 
 	
@@ -50,4 +53,4 @@ journal = Journal()
 journal.read_input()
 print(journal)
 journal.view_entries()
-journal.export_entries(file_name='journal_backup.txt')
+journal.export_entries()
