@@ -34,19 +34,44 @@ class Journal:
 
 	def view_entries(self):
 		print('---' * 11)
-		print('|  Date    |        Name        |')
+		print('| Birthdate  |       Name       |')
 		print('---' * 11)
 		for entry in self.entries:
 			date, name = entry.values()
-			print(date, '|', name)
+			print('|',date, '|', name)
+		print('\n')
 		# self.read_input()
 
-	def delete_entries(self):
-		with open('birthdays.json') as json_data:
-			data = json.loads(json_data.read())
+	def search_entries(self, query=''):
+		search = input('Input the name you want to search: ')
+		matched_entries = [entry for entry in self.entries if search in entry['name']]
+		print(matched_entries, '\n')
+		return matched_entries
 
-		for entry in data['birthdays']:
-			del entry['name']
+	def edit_entry(self):
+	    i = int (input("Input the index you want to edit: "))
+	    print(self.entries[i],'\n')
+	    choice = input("Enter (n) for the name and (d) for date: ")
+	    if choice == 'n' or 'N':
+	        new_name = input("New Name: ")
+	        self.entries[i]['name'] = new_name
+	    elif choice == 'd':
+	        new_bdate = input("New Birthdate: ")
+	        self.entries[i]["date"] = new_bdate
+	    else:
+	        print("Invalid input!")
+
+	    print('JOURNAL UPDATED!')
+	    self.view_entries()
+
+	def delete_entries(self):
+		i = int(input('Input the index you want to delete: '))
+		self.entries.pop(i)
+
+		print('\n')
+		print('UPDATED JOURNAL:')
+		self.view_entries()
+		return self.entries
 				# if 'date' in entry:
 				# 	del entry['name']
 		# json_data.write(data)
@@ -71,5 +96,7 @@ journal = Journal()
 journal.read_input()
 print(journal)
 journal.view_entries()
+journal.search_entries(query='')
 journal.delete_entries()
+journal.edit_entry()
 journal.export_entries()
