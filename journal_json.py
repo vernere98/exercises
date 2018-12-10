@@ -2,8 +2,8 @@ import json
 
 class Journal:
 	# xRead from an input file
-    # Add entry to journal
-    # View entries
+    # xAdd entry to journal
+    # xView entries
     # Search entries
     # Edit entries
     # Delete entries
@@ -20,27 +20,45 @@ class Journal:
 			data = json.load(json_data)
 
 			for r in data['birthdays']:
-				print(r['date'], '|', r['name'])
+				date = r['date']
+				name = r['name']
+				#print(r['date'], '|', r['name'])
+				self.add_entry(date, name)
 
-	# def add_entry(self, date, name)
+	def add_entry(self, date, name):
+		self.entries.append({
+			'date': date,
+			'name': name
+			})
 
 
 	def view_entries(self):
 		print('---' * 11)
-		print('Date\t   | Name\t        |')
+		print('|  Date    |        Name        |')
 		print('---' * 11)
-		self.read_input()
+		for entry in self.entries:
+			date, name = entry.values()
+			print(date, '|', name)
+		# self.read_input()
 
-
-	def export_entries_delete_entries(self):
+	def delete_entries(self):
 		with open('birthdays.json') as json_data:
-			data = json.load(json_data)
-			for entry in data['birthdays']:
-				if 'date' in entry:
-					del entry['date']
+			data = json.loads(json_data.read())
 
+		for entry in data['birthdays']:
+			del entry['name']
+				# if 'date' in entry:
+				# 	del entry['name']
+		# json_data.write(data)
+
+
+	def export_entries(self):
 		with open('birthdays.txt', 'w') as json_data:
-			data = json.dump(data, json_data)
+			json_data.writelines([
+				'{date}|{name}\n'.format_map(entry)
+				for entry in self.entries
+				])
+			# data = json.dump(data, json_data)
 
 
 	
@@ -53,4 +71,5 @@ journal = Journal()
 journal.read_input()
 print(journal)
 journal.view_entries()
+journal.delete_entries()
 journal.export_entries()
